@@ -1,24 +1,26 @@
 const todoForm = document.getElementById("todo-form");
 const todoItems = document.getElementById("todo-items");
-localStorage.setItem("achievement", []);
+const initial = {list: []};
+localStorage.setItem("achievement", JSON.stringify(initial));
+const achievement = localStorage.getItem("achievement");
+console.log(JSON.parse(achievement));
 
 function saveAchievement() {
     const todoInput = document.getElementById("todo-input");
     console.log(todoInput.value);
-    const achievement = localStorage.getItem(JSON.stringify("achievement"));
-    console.log(achievement);
     if (achievement) {
-        achievement.push(todoInput.value);
-        console.log(achievement);
+        let ac = JSON.parse(achievement);
+        ac.list.push(todoInput.value);
+        localStorage.setItem("achievement", JSON.stringify(ac));
     }
     return;
 }
 
 function showAchievement() {
-    const achievements = localStorage.getItem("achievement");
-    // console.log(achievements)
     todoItems.innerHTML = "";
-    achievements.forEach((achievement) => {
+    let ac = JSON.parse(achievement)
+    console.log(ac);
+    achievement.list.forEach((achievement) => {
         let list = `
             <li>
                 <input type="checkbox" value="" id="checkBoxAchievement">
@@ -36,5 +38,3 @@ todoForm.addEventListener("submit", function (event) {
     saveAchievement();
     showAchievement();
 })
-
-//function deleteAchievement() {}
